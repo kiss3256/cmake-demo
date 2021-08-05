@@ -4,8 +4,13 @@ project(demo VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-# add_subdirectory 向当前工程添加存放源文件的子目录
-add_subdirectory (src)
+set (EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+
+aux_source_directory (src SRC_LIST)
+
+include_directories (include)
+
+add_executable (main ${SRC_LIST})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
