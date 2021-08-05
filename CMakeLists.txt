@@ -4,20 +4,20 @@ project(demo VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-set (SRC_LIST ${PROJECT_SOURCE_DIR}/testFunc/testFunc.c)
+set (EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
-# add_library: 生成动态库或静态库(第1个参数指定库的名字；第2个参数决定是动态还是静态，如果没有就默认静态；第3个参数指定生成库的源文件)
-add_library (testFunc_shared SHARED ${SRC_LIST})
-add_library (testFunc_static STATIC ${SRC_LIST})
+set (SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.c)
 
-# set_target_properties: 设置最终生成的库的名称，还有其它功能，如设置库的版本号等等
-set_target_properties (testFunc_shared PROPERTIES OUTPUT_NAME "testFunc")
-set_target_properties (testFunc_static PROPERTIES OUTPUT_NAME "testFunc")
+# find testFunc.h
+include_directories (${PROJECT_SOURCE_DIR}/testFunc/include)
 
-# LIBRARY_OUTPUT_PATH: 库文件的默认输出路径，这里设置为工程目录下的lib目录
-set (LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+# find_library: 在指定目录下查找指定库，并把库的绝对路径存放到变量里，其第一个参数是变量名称，第二个参数是库名称，第三个参数是HINTS，第四个参数是路径
+find_library(TESTFUNC_LIB testFunc HINTS ${PROJECT_SOURCE_DIR}/testFunc/lib)
 
-# add_executable (main ${SRC_LIST})
+add_executable (main ${SRC_LIST})
+
+# target_link_libraries: 把目标文件与库文件进行链接
+target_link_libraries (main ${TESTFUNC_LIB})
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
