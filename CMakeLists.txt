@@ -4,14 +4,8 @@ project(demo VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-# include_directories 是用来向工程添加多个指定头文件的搜索路径，路径之间用空格分隔
-include_directories (test_func test_func1)
-
-# aux_source_directory 把当前目录下的源文件存列表存放到变量SRC_LIST里
-aux_source_directory (test_func SRC_LIST)
-aux_source_directory (test_func1 SRC_LIST1)
-
-add_executable(main main.c ${SRC_LIST} ${SRC_LIST1})
+# add_subdirectory 向当前工程添加存放源文件的子目录
+add_subdirectory (src)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
